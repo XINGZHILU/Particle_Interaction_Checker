@@ -36,6 +36,7 @@ body {
 }
 
 .keyboard_section {
-  @apply grid grid-cols-10 gap-y-8;
+  @apply grid grid-cols-6 gap-y-8 gap-x-3;
 
 }
+

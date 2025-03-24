@@ -1,6 +1,7 @@
 export class Particle {
     name: string;
     symbol: string;
+    charge: number;
     electron_lepton: number;
     muon_lepton: number;
     tau_lepton: number;
@@ -11,6 +12,7 @@ export class Particle {
     constructor(name: string, symbol: string, charge: number, electron_lepton: number, muon_lepton: number, tau_lepton: number, baryon: number, strangeness: number, lepton: boolean) {
         this.name = name;
         this.symbol = symbol;
+        this.charge = charge;
         this.electron_lepton = electron_lepton;
         this.muon_lepton = muon_lepton;
         this.tau_lepton = tau_lepton;
