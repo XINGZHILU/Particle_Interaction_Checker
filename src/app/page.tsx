@@ -84,7 +84,7 @@ export default function Page() {
                                 add_reactants(particle);
                             }}
                                     variant={'default'} color={'gray'}>
-                                <Symbol particle={particle} key={index}/>
+                                <Tex2SVG latex={particle.symbol}/>
                             </Button>
                         ))}
                     </div>
@@ -96,7 +96,7 @@ export default function Page() {
                                 add_reactants(particle);
                             }}
                                     variant={'default'} color={'gray'}>
-                                <Symbol particle={particle} key={index}/>
+                                <Tex2SVG latex={particle.symbol}/>
                             </Button>
                         ))}
                     </div>
@@ -108,7 +108,7 @@ export default function Page() {
                                 add_reactants(particle);
                             }}
                                     variant={'default'} color={'gray'}>
-                                <Symbol particle={particle} key={index}/>
+                                <Tex2SVG latex={particle.symbol}/>
                             </Button>
                         ))}
                     </div>
@@ -119,7 +119,7 @@ export default function Page() {
                                 add_reactants(particle);
                             }}
                                     variant={'default'} color={'gray'}>
-                                <Symbol particle={particle} key={index}/>
+                                <Tex2SVG latex={particle.symbol}/>
                             </Button>
                         ))}
                     </div>
@@ -140,7 +140,7 @@ export default function Page() {
                         {leptons.map((particle, index) => (
                             <Button key={particle.name} onClick={() => add_products(particle)}
                                     variant={'default'} color={'gray'}>
-                                <Symbol particle={particle} key={index}/>
+                                <Tex2SVG latex={particle.symbol}/>
                             </Button>
                         ))}
                     </div>
@@ -150,7 +150,7 @@ export default function Page() {
                         {baryons.map((particle, index) => (
                             <Button key={particle.name} onClick={() => add_products(particle)}
                                     variant={'default'} color={'gray'}>
-                                <Symbol particle={particle} key={index}/>
+                                <Tex2SVG latex={particle.symbol}/>
                             </Button>
                         ))}
                     </div>
@@ -160,7 +160,7 @@ export default function Page() {
                         {mesons.map((particle, index) => (
                             <Button key={particle.name} onClick={() => add_products(particle)}
                                     variant={'default'} color={'gray'}>
-                                <Symbol particle={particle} key={index}/>
+                                <Tex2SVG latex={particle.symbol}/>
                             </Button>
                         ))}
                     </div>
@@ -169,7 +169,7 @@ export default function Page() {
                         {strange_particles.map((particle, index) => (
                             <Button key={particle.name} onClick={() => add_products(particle)}
                                     variant={'default'} color={'gray'}>
-                                <Symbol particle={particle} key={index}/>
+                                <Tex2SVG latex={particle.symbol}/>
                             </Button>
                         ))}
                     </div>
