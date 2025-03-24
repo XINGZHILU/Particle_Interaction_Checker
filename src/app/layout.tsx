@@ -25,12 +25,15 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" {...mantineHtmlProps}>
+        <html lang="en" {...mantineHtmlProps} suppressHydrationWarning={true}
+              suppressContentEditableWarning={true}>
             <head>
                 <ColorSchemeScript/>
             </head>
             <body>
-                <MantineProvider>{children}</MantineProvider>
+                <MantineProvider><div className='p-2'>
+                    {children}
+                </div></MantineProvider>
             </body>
         </html>
     );

@@ -35,15 +35,15 @@ const electron = new Particle(
 );
 
 const electron_neutrino = new Particle(
-    'Electron Neutrino', '\\nu_{e}', 0, 1, 0, 0, 0, 0, true
+    'Electron Neutrino', 'v_{e}', 0, 1, 0, 0, 0, 0, true
 );
 
 const muon_neutrino = new Particle(
-    'Muon Neutrino', '\\nu_{\\mu}', 0, 0, 1, 0, 0, 0, true
+    'Muon Neutrino', 'v_{\\mu}', 0, 0, 1, 0, 0, 0, true
 );
 
 const tau_neutrino = new Particle(
-    'Tau Neutrino', '\\nu_{\\tau}', 0, 0, 0, 1, 0, 0, true
+    'Tau Neutrino', 'v_{\\tau}', 0, 0, 0, 1, 0, 0, true
 );
 
 
@@ -138,14 +138,6 @@ const antitau = new Particle(
     'Anti Tau', '\\bar{\\tau}', 1, 0, 0, 1, 0, 0, true
 );
 
-export const particles = [
-    neutron, proton, electron, electron_neutrino, positron, anti_electron_neutrino,
-    muon, muon_neutrino, antimuon, anti_muon_neutrino, tau, tau_neutrino, antitau, anti_tau_neutrino,
-    pi_plus, pi_minus, pi_zero, k_plus, k_minus, k_zero,
-    lambda,
-    sigma_plus, sigma_minus, sigma_zero,
-    xi_minus, xi_zero, omega_minus, omega_zero,
-];
 
 export const leptons = [
     electron, electron_neutrino, positron, anti_electron_neutrino,

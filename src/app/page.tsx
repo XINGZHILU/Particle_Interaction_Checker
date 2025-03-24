@@ -1,138 +1,194 @@
 'use client';
 
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {Particle, leptons, baryons, mesons, strange_particles} from "@/lib/particle_data";
 import {Symbol} from "@/lib/ParticlesUI";
-import {Button} from "@mantine/core";
 import { FaDeleteLeft } from "react-icons/fa6";
+import Tex2SVG from "react-hook-mathjax";
+import {Check} from "@/lib/check";
+import { Modal, Button } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 
 export default function Page() {
+    const [opened, { close, open }] = useDisclosure(false);
     const [reactants, setReactants] = useState<Particle[]>([]);
     const [products, setProducts] = useState<Particle[]>([]);
+    const [reaction_symbols, setReactionSymbols] = useState<string[]>([]);
+    const [product_symbols, setProductSymbols] = useState<string[]>([]);
+    const [check_result, setCheckResult] = useState<React.JSX.Element>(<div></div>);
+    //const [equation, setEquation] = useState<string>('');
 
     function add_reactants(particle: Particle) {
         setReactants([...reactants, particle]);
+        setReactionSymbols([...reaction_symbols, particle.symbol]);
+        //setEquation(`${reaction_symbols.join(' + ')} \\rightarrow ${product_symbols.join(' + ')}`)
     }
 
     function delete_reactants() {
-        if (reactants.length > 0) {
+        if (reactants.length > 1) {
             setReactants(reactants.slice(0, reactants.length - 1));
+            setReactionSymbols(reaction_symbols.slice(0, reaction_symbols.length - 1));
         }
+        else if (reactants.length === 1) {
+            setReactants([]);
+            setReactionSymbols([]);
+        }
+        //setEquation(`${reaction_symbols.join(' + ')} \\rightarrow ${product_symbols.join(' + ')}`)
     }
 
     function add_products(particle: Particle) {
         setProducts([...products, particle]);
+        setProductSymbols([...product_symbols, particle.symbol]);
+        //setEquation(`${reaction_symbols.join(' + ')} \\rightarrow ${product_symbols.join(' + ')}`)
     }
 
     function delete_products() {
-        if (products.length > 0) {
+        if (products.length > 1) {
             setProducts(products.slice(0, products.length - 1));
+            setProductSymbols(product_symbols.slice(product_symbols.length - 1));
         }
+        else if (products.length === 1) {
+            setProducts([]);
+            setProductSymbols([]);
+        }
+        //setEquation(`${reaction_symbols.join(' + ')} \\rightarrow ${product_symbols.join(' + ')}`)
     }
 
-    return <div className={'grid grid-cols-2 gap-x-20'}>
-        <div>
-            <h2>Reactants</h2>
-            <div className={'grid grid-cols-10 min-h-40'}>
-                {reactants.map((particle, index) => (
-                    <Symbol particle={particle} key={index}/>
-                ))}
-            </div>
-            <Button variant={'default'} color={'gray'} onClick={delete_reactants}>
-                <FaDeleteLeft />
-            </Button>
+    function check() {
+        setCheckResult(Check(reactants, products));
+        open();
+    }
+
+
+
+    return <div>
+        <center>
+            <h1>Particle Reaction Validator</h1>
+        </center>
+        <div className={'grid grid-cols-2 gap-x-10'}>
             <div>
-                <h3>Leptons</h3>
-                <div className={'keyboard_section'}>
-                    {leptons.map((particle, index) => (
-                        <Button key={particle.name} onClick={() => add_reactants(particle)}
-                                variant={'default'} color={'gray'}>
-                            <Symbol particle={particle} key={index}/>
-                        </Button>
-                    ))}
+                <h2>Reactants</h2>
+                <div className={'min-h-20'}>
+                    <Tex2SVG latex={reaction_symbols.join('+')}/>
                 </div>
+                <Button variant={'default'} color={'gray'} onClick={() => {
+                    delete_reactants();
+                }}>
+                    <FaDeleteLeft />
+                </Button>
+                <div>
+                    <h3>Leptons</h3>
+                    <div className={'keyboard_section'}>
+                        {leptons.map((particle, index) => (
+                            <Button key={particle.name} onClick={() => {
+                                add_reactants(particle);
+                            }}
+                                    variant={'default'} color={'gray'}>
+                                <Symbol particle={particle} key={index}/>
+                            </Button>
+                        ))}
+                    </div>
 
-                <h3>Baryons</h3>
-                <div className={'keyboard_section'}>
-                    {baryons.map((particle, index) => (
-                        <Button key={particle.name} onClick={() => add_reactants(particle)}
-                                variant={'default'} color={'gray'}>
-                            <Symbol particle={particle} key={index}/>
-                        </Button>
-                    ))}
-                </div>
+                    <h3>Baryons</h3>
+                    <div className={'keyboard_section'}>
+                        {baryons.map((particle, index) => (
+                            <Button key={particle.name} onClick={() => {
+                                add_reactants(particle);
+                            }}
+                                    variant={'default'} color={'gray'}>
+                                <Symbol particle={particle} key={index}/>
+                            </Button>
+                        ))}
+                    </div>
 
-                <h3>Mesons</h3>
-                <div className={'keyboard_section'}>
-                    {mesons.map((particle, index) => (
-                        <Button key={particle.name} onClick={() => add_reactants(particle)}
-                                variant={'default'} color={'gray'}>
-                            <Symbol particle={particle} key={index}/>
-                        </Button>
-                    ))}
-                </div>
-                <h3>Strange particles</h3>
-                <div className={'keyboard_section'}>
-                    {strange_particles.map((particle, index) => (
-                        <Button key={particle.name} onClick={() => add_reactants(particle)}
-                                variant={'default'} color={'gray'}>
-                            <Symbol particle={particle} key={index}/>
-                        </Button>
-                    ))}
-                </div>
+                    <h3>Mesons</h3>
+                    <div className={'keyboard_section'}>
+                        {mesons.map((particle, index) => (
+                            <Button key={particle.name} onClick={() => {
+                                add_reactants(particle);
+                            }}
+                                    variant={'default'} color={'gray'}>
+                                <Symbol particle={particle} key={index}/>
+                            </Button>
+                        ))}
+                    </div>
+                    <h3>Strange particles</h3>
+                    <div className={'keyboard_section'}>
+                        {strange_particles.map((particle, index) => (
+                            <Button key={particle.name} onClick={() => {
+                                add_reactants(particle);
+                            }}
+                                    variant={'default'} color={'gray'}>
+                                <Symbol particle={particle} key={index}/>
+                            </Button>
+                        ))}
+                    </div>
 
+                </div>
+            </div>
+            <div>
+                <h2>Products</h2>
+                <div className={'min-h-20'}>
+                    <Tex2SVG latex={product_symbols.join('+')}/>
+                </div>
+                <Button variant={'default'} color={'gray'} onClick={delete_products}>
+                    <FaDeleteLeft />
+                </Button>
+                <div>
+                    <h3>Leptons</h3>
+                    <div className={'keyboard_section'}>
+                        {leptons.map((particle, index) => (
+                            <Button key={particle.name} onClick={() => add_products(particle)}
+                                    variant={'default'} color={'gray'}>
+                                <Symbol particle={particle} key={index}/>
+                            </Button>
+                        ))}
+                    </div>
+
+                    <h3>Baryons</h3>
+                    <div className={'keyboard_section'}>
+                        {baryons.map((particle, index) => (
+                            <Button key={particle.name} onClick={() => add_products(particle)}
+                                    variant={'default'} color={'gray'}>
+                                <Symbol particle={particle} key={index}/>
+                            </Button>
+                        ))}
+                    </div>
+
+                    <h3>Mesons</h3>
+                    <div className={'keyboard_section'}>
+                        {mesons.map((particle, index) => (
+                            <Button key={particle.name} onClick={() => add_products(particle)}
+                                    variant={'default'} color={'gray'}>
+                                <Symbol particle={particle} key={index}/>
+                            </Button>
+                        ))}
+                    </div>
+                    <h3>Strange particles</h3>
+                    <div className={'keyboard_section'}>
+                        {strange_particles.map((particle, index) => (
+                            <Button key={particle.name} onClick={() => add_products(particle)}
+                                    variant={'default'} color={'gray'}>
+                                <Symbol particle={particle} key={index}/>
+                            </Button>
+                        ))}
+                    </div>
+                </div>
             </div>
         </div>
-        <div>
-            <h2>Products</h2>
-            <div className={'grid grid-cols-10 min-h-40'}>
-                {products.map((particle, index) => (
-                    <Symbol particle={particle} key={index}/>
-                ))}
-            </div>
-            <Button variant={'default'} color={'gray'} onClick={delete_products}>
-                <FaDeleteLeft />
-            </Button>
-            <div>
-                <h3>Leptons</h3>
-                <div className={'keyboard_section'}>
-                    {leptons.map((particle, index) => (
-                        <Button key={particle.name} onClick={() => add_products(particle)}
-                                variant={'default'} color={'gray'}>
-                            <Symbol particle={particle} key={index}/>
-                        </Button>
-                    ))}
-                </div>
-
-                <h3>Baryons</h3>
-                <div className={'keyboard_section'}>
-                    {baryons.map((particle, index) => (
-                        <Button key={particle.name} onClick={() => add_products(particle)}
-                                variant={'default'} color={'gray'}>
-                            <Symbol particle={particle} key={index}/>
-                        </Button>
-                    ))}
-                </div>
-
-                <h3>Mesons</h3>
-                <div className={'keyboard_section'}>
-                    {mesons.map((particle, index) => (
-                        <Button key={particle.name} onClick={() => add_products(particle)}
-                                variant={'default'} color={'gray'}>
-                            <Symbol particle={particle} key={index}/>
-                        </Button>
-                    ))}
-                </div>
-                <h3>Strange particles</h3>
-                <div className={'keyboard_section'}>
-                    {strange_particles.map((particle, index) => (
-                        <Button key={particle.name} onClick={() => add_products(particle)}
-                                variant={'default'} color={'gray'}>
-                            <Symbol particle={particle} key={index}/>
-                        </Button>
-                    ))}
-                </div>
-            </div>
-        </div>
+        <br/>
+        <Button onClick={check} variant={'primary'} color={'cyan'} fullWidth={true}>Check!</Button>
+        <Modal
+            opened={opened}
+            onClose={close}
+            fullScreen
+            radius={0}
+            transitionProps={{ transition: 'fade', duration: 200 }}
+        >
+            <h1>Check result</h1>
+            <h2>Reaction</h2>
+            <Tex2SVG latex={`${reaction_symbols.join(' + ')} \\rightarrow ${product_symbols.join(' + ')}`}/>
+            {check_result}
+        </Modal>
     </div>;
 }
