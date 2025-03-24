@@ -24,3 +24,18 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.input-button {
+    height: 1.5rem;
+    width: 3rem;
+    background-color: #fff;
+    color: #000;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.keyboard_section {
+  @apply grid grid-cols-10 gap-y-8;
+
+}
