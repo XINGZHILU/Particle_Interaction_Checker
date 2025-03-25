@@ -1,7 +1,7 @@
 'use client';
 
 import {Particle} from "@/lib/particle_data";
-import {Tex2SVG} from "react-hook-mathjax";
+import { TeX } from "@/lib/ParticlesUI";
 
 function charge_check(reactants : Particle[], products : Particle[]) {
     let reactants_charge = 0;
@@ -30,6 +30,10 @@ export function Check(reactants : Particle[], products : Particle[]) {
 
 
     return <div>
+        <center><h1>Check result</h1></center>
+        <h2>Reaction</h2>
+        <TeX latex={`${reactant_symbols.join(' + ')} \\rightarrow ${product_symbols.join(' + ')}`}/>
+        <br/>
         <h2>Charge conservation</h2>
         {charge_check(reactants, products)}
     </div>;

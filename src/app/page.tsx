@@ -211,10 +211,7 @@ export default function Page() {
             radius={0}
             transitionProps={{ transition: 'fade', duration: 200 }}
         >
-            <h1>Check result</h1>
-            <h2>Reaction</h2>
-            <TeX latex={`${reaction_symbols.join(' + ')} \\rightarrow ${product_symbols.join(' + ')}`}/>
-            <br/>
+            
             {check_result}
         </Modal>
     </div>;
