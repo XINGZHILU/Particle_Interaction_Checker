@@ -2,9 +2,8 @@
 
 import React, {useState} from 'react';
 import {Particle, leptons, baryons, mesons, strange_particles} from "@/lib/particle_data";
-import {Symbol} from "@/lib/ParticlesUI";
+import {TeX} from "@/lib/ParticlesUI";
 import { FaDeleteLeft } from "react-icons/fa6";
-import Tex2SVG from "react-hook-mathjax";
 import {Check} from "@/lib/check";
 import { Modal, Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -69,7 +68,7 @@ export default function Page() {
             <div>
                 <h2>Reactants</h2>
                 <div className={'min-h-20'}>
-                    <Tex2SVG latex={reaction_symbols.join('+')}/>
+                    <TeX latex={reaction_symbols.join('+')}/>
                 </div>
                 <Button variant={'default'} color={'gray'} onClick={() => {
                     delete_reactants();
@@ -84,7 +83,7 @@ export default function Page() {
                                 add_reactants(particle);
                             }}
                                     variant={'default'} color={'gray'}>
-                                <Tex2SVG latex={particle.symbol}/>
+                                <TeX latex={particle.symbol}/>
                             </Button>
                         ))}
                     </div>
@@ -96,7 +95,7 @@ export default function Page() {
                                 add_reactants(particle);
                             }}
                                     variant={'default'} color={'gray'}>
-                                <Tex2SVG latex={particle.symbol}/>
+                                <TeX latex={particle.symbol}/>
                             </Button>
                         ))}
                     </div>
@@ -108,7 +107,7 @@ export default function Page() {
                                 add_reactants(particle);
                             }}
                                     variant={'default'} color={'gray'}>
-                                <Tex2SVG latex={particle.symbol}/>
+                                <TeX latex={particle.symbol}/>
                             </Button>
                         ))}
                     </div>
@@ -119,7 +118,7 @@ export default function Page() {
                                 add_reactants(particle);
                             }}
                                     variant={'default'} color={'gray'}>
-                                <Tex2SVG latex={particle.symbol}/>
+                                <TeX latex={particle.symbol}/>
                             </Button>
                         ))}
                     </div>
@@ -129,7 +128,7 @@ export default function Page() {
             <div>
                 <h2>Products</h2>
                 <div className={'min-h-20'}>
-                    <Tex2SVG latex={product_symbols.join('+')}/>
+                    <TeX latex={product_symbols.join('+')}/>
                 </div>
                 <Button variant={'default'} color={'gray'} onClick={delete_products}>
                     <FaDeleteLeft />
@@ -140,7 +139,7 @@ export default function Page() {
                         {leptons.map((particle, index) => (
                             <Button key={particle.name} onClick={() => add_products(particle)}
                                     variant={'default'} color={'gray'}>
-                                <Tex2SVG latex={particle.symbol}/>
+                                <TeX latex={particle.symbol}/>
                             </Button>
                         ))}
                     </div>
@@ -150,7 +149,7 @@ export default function Page() {
                         {baryons.map((particle, index) => (
                             <Button key={particle.name} onClick={() => add_products(particle)}
                                     variant={'default'} color={'gray'}>
-                                <Tex2SVG latex={particle.symbol}/>
+                                <TeX latex={particle.symbol}/>
                             </Button>
                         ))}
                     </div>
@@ -160,7 +159,7 @@ export default function Page() {
                         {mesons.map((particle, index) => (
                             <Button key={particle.name} onClick={() => add_products(particle)}
                                     variant={'default'} color={'gray'}>
-                                <Tex2SVG latex={particle.symbol}/>
+                                <TeX latex={particle.symbol}/>
                             </Button>
                         ))}
                     </div>
@@ -169,7 +168,7 @@ export default function Page() {
                         {strange_particles.map((particle, index) => (
                             <Button key={particle.name} onClick={() => add_products(particle)}
                                     variant={'default'} color={'gray'}>
-                                <Tex2SVG latex={particle.symbol}/>
+                                <TeX latex={particle.symbol}/>
                             </Button>
                         ))}
                     </div>
@@ -187,7 +186,7 @@ export default function Page() {
         >
             <h1>Check result</h1>
             <h2>Reaction</h2>
-            <Tex2SVG latex={`${reaction_symbols.join(' + ')} \\rightarrow ${product_symbols.join(' + ')}`}/>
+            <TeX latex={`${reaction_symbols.join(' + ')} \\rightarrow ${product_symbols.join(' + ')}`}/>
             {check_result}
         </Modal>
     </div>;

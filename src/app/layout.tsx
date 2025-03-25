@@ -1,18 +1,9 @@
-import type {Metadata} from "next";
-import {Geist, Geist_Mono} from "next/font/google";
+import type { Metadata } from "next";
 import "./globals.css";
 import '@mantine/core/styles.css';
-import {ColorSchemeScript, MantineProvider, mantineHtmlProps} from '@mantine/core';
+import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
+import Script from "next/script";
 
-const geistSans = Geist({
-    variable: "--font-geist-sans",
-    subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
-    subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -20,20 +11,22 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-                                       children,
-                                   }: Readonly<{
+    children,
+}: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" {...mantineHtmlProps} suppressHydrationWarning={true}
-              suppressContentEditableWarning={true}>
+        <html lang="en" {...mantineHtmlProps}>
             <head>
-                <ColorSchemeScript/>
+                <ColorSchemeScript />
+                <Script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></Script>
+                <Script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></Script>
             </head>
             <body>
                 <MantineProvider><div className='p-2'>
                     {children}
                 </div></MantineProvider>
+                
             </body>
         </html>
     );
