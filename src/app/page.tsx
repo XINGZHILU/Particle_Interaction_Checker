@@ -3,333 +3,189 @@
 import React, { useState } from 'react';
 import { Particle, leptons, baryons, mesons, strange_particles } from "@/lib/particle_data";
 import { TeX } from "@/lib/ParticlesUI";
-import { FaDeleteLeft, FaArrowRight } from "react-icons/fa6";
-import { IoMdInformationCircleOutline } from "react-icons/io";
-import { Check } from "@/lib/check";
-import { Modal, Button, Tabs, Card, Text, Group, Divider, Tooltip } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import ParticleDataPage from '@/lib/DataPage';
+import { Button } from '@mantine/core';
 
-export default function Page() {
-    const [opened, { close, open }] = useDisclosure(false);
-    const [infoOpened, { close: closeInfo, open: openInfo }] = useDisclosure(false);
-    const [dataOpened, { close: closeData, open: openData }] = useDisclosure(false);
-    const [reactants, setReactants] = useState<Particle[]>([]);
-    const [products, setProducts] = useState<Particle[]>([]);
-    const [reaction_symbols, setReactionSymbols] = useState<string[]>([]);
-    const [product_symbols, setProductSymbols] = useState<string[]>([]);
-    const [check_result, setCheckResult] = useState<React.JSX.Element>(<div></div>);
+export default function ParticleDataPage() {
+    const [selectedCategory, setSelectedCategory] = useState('all');
+    const [searchTerm, setSearchTerm] = useState('');
 
-    function add_reactants(particle: Particle) {
-        setReactants([...reactants, particle]);
-        setReactionSymbols([...reaction_symbols, particle.symbol]);
+    // Function to filter particles based on search term
+    const filterParticles = (particles : Particle[]) => {
+        if (!searchTerm) return particles;
+        return particles.filter(particle => 
+            particle.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            particle.symbol.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    };
+    
+    // Function to format number with sign
+    const formatNumberWithSign = (num: number) => {
+        return num > 0 ? `+${num}` : num.toString();
+    };
+
+    // Get all particles from different categories
+    const allParticles = [...leptons, ...baryons, ...mesons, ...strange_particles];
+    
+    // Determine which particles to display based on selected category
+    let displayParticles = [];
+    switch (selectedCategory) {
+        case 'leptons':
+            displayParticles = filterParticles(leptons);
+            break;
+        case 'baryons':
+            displayParticles = filterParticles(baryons);
+            break;
+        case 'mesons':
+            displayParticles = filterParticles(mesons);
+            break;
+        case 'strange':
+            displayParticles = filterParticles(strange_particles);
+            break;
+        default:
+            displayParticles = filterParticles(allParticles);
     }
 
-    function delete_reactants() {
-        if (reactants.length > 1) {
-            setReactants(reactants.slice(0, reactants.length - 1));
-            setReactionSymbols(reaction_symbols.slice(0, reaction_symbols.length - 1));
-        }
-        else if (reactants.length === 1) {
-            setReactants([]);
-            setReactionSymbols([]);
-        }
-    }
-
-    function clear_reactants() {
-        setReactants([]);
-        setReactionSymbols([]);
-    }
-
-    function add_products(particle: Particle) {
-        setProducts([...products, particle]);
-        setProductSymbols([...product_symbols, particle.symbol]);
-    }
-
-    function delete_products() {
-        if (products.length > 1) {
-            setProducts(products.slice(0, products.length - 1));
-            setProductSymbols(product_symbols.slice(0, product_symbols.length - 1));
-        }
-        else if (products.length === 1) {
-            setProducts([]);
-            setProductSymbols([]);
-        }
-    }
-
-    function clear_products() {
-        setProducts([]);
-        setProductSymbols([]);
-    }
-
-    function check() {
-        setCheckResult(Check(reactants, products));
-        open();
-    }
-
-    // Function to render particle buttons
-    const renderParticleButtons = (particles: Particle[], addFunction: (particle: Particle) => void) => (
-        <div className={'keyboard_section'}>
-            {particles.map((particle) => (
-                <Tooltip key={particle.name} label={particle.name} position="top" withArrow>
-                    <Button
-                        onClick={() => addFunction(particle)}
-                        variant={'outline'}
-                        color={'gray'}
-                        className="hover:bg-gray-100"
-                    >
-                        <TeX latex={particle.symbol} />
-                    </Button>
-                </Tooltip>
-            ))}
-        </div>
-    );
+    // Helper function to render boolean as Yes/No
+    const renderBoolean = (value : boolean) => value ? 'Yes' : 'No';
 
     return (
-        <div className="container mx-auto p-4 max-w-6xl">
-            <header className="flex justify-between items-center mb-6">
-                <h1 className="text-3xl font-bold text-center">Particle Reaction Validator</h1>
-                <Group>
-                    <Button
-                        variant="subtle"
-                        color="blue"
-                        onClick={openInfo}
-                        leftSection={<IoMdInformationCircleOutline size={20} />}
-                    >
-                        Info
-                    </Button>
-                    <Button 
-                        variant="subtle" 
-                        color="gray"
-                        onClick={openData}
-                    >
-                        Particle Data
-                    </Button>
-                </Group>
-            </header>
-
-            {/* Reaction Equation Display */}
-            <Card shadow="sm" padding="lg" radius="md" withBorder className="mb-6">
-                <Card.Section p="md" className="bg-blue-50">
-                    <div className="flex items-center justify-center gap-4 py-4 text-xl">
-                        <div className="min-w-32 text-center">
-                            {reaction_symbols.length > 0 ?
-                                <TeX latex={reaction_symbols.join('+')} /> :
-                                <Text color="dimmed">Select reactants</Text>
-                            }
-                        </div>
-                        <FaArrowRight className="text-blue-500" />
-                        <div className="min-w-32 text-center">
-                            {product_symbols.length > 0 ?
-                                <TeX latex={product_symbols.join('+')} /> :
-                                <Text color="dimmed">Select products</Text>
-                            }
-                        </div>
-                    </div>
-                </Card.Section>
-            </Card>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                {/* Reactants Column */}
-                <Card shadow="sm" padding="lg" radius="md" withBorder>
-                    <Card.Section withBorder inheritPadding py="xs" className="bg-blue-50">
-                        <Group justify="space-between">
-                            <Text fw={700}>Reactants</Text>
-                            <Group>
-                                <Button
-                                    variant="outline"
-                                    color="red"
-                                    size="xs"
-                                    onClick={delete_reactants}
-                                >
-                                    <FaDeleteLeft />
-                                </Button>
-                                <Button
-                                    variant="outline"
-                                    color="gray"
-                                    size="xs"
-                                    onClick={clear_reactants}
-                                >
-                                    Clear
-                                </Button>
-                            </Group>
-                        </Group>
-                    </Card.Section>
-
-                    <Tabs defaultValue="leptons" className="mt-4">
-                        <Tabs.List>
-                            <Tabs.Tab value="leptons">Leptons</Tabs.Tab>
-                            <Tabs.Tab value="baryons">Baryons</Tabs.Tab>
-                            <Tabs.Tab value="mesons">Mesons</Tabs.Tab>
-                            <Tabs.Tab value="strange">Strange</Tabs.Tab>
-                        </Tabs.List>
-
-                        <Tabs.Panel value="leptons" pt="xs">
-                            {renderParticleButtons(leptons, add_reactants)}
-                        </Tabs.Panel>
-
-                        <Tabs.Panel value="baryons" pt="xs">
-                            {renderParticleButtons(baryons, add_reactants)}
-                        </Tabs.Panel>
-
-                        <Tabs.Panel value="mesons" pt="xs">
-                            {renderParticleButtons(mesons, add_reactants)}
-                        </Tabs.Panel>
-
-                        <Tabs.Panel value="strange" pt="xs">
-                            {renderParticleButtons(strange_particles, add_reactants)}
-                        </Tabs.Panel>
-                    </Tabs>
-                </Card>
-
-                {/* Products Column */}
-                <Card shadow="sm" padding="lg" radius="md" withBorder>
-                    <Card.Section withBorder inheritPadding py="xs" className="bg-blue-50">
-                        <Group justify="space-between">
-                            <Text fw={700}>Products</Text>
-                            <Group>
-                                <Button
-                                    variant="outline"
-                                    color="red"
-                                    size="xs"
-                                    onClick={delete_products}
-                                >
-                                    <FaDeleteLeft />
-                                </Button>
-                                <Button
-                                    variant="outline"
-                                    color="gray"
-                                    size="xs"
-                                    onClick={clear_products}
-                                >
-                                    Clear
-                                </Button>
-                            </Group>
-                        </Group>
-                    </Card.Section>
-
-                    <Tabs defaultValue="leptons" className="mt-4">
-                        <Tabs.List>
-                            <Tabs.Tab value="leptons">Leptons</Tabs.Tab>
-                            <Tabs.Tab value="baryons">Baryons</Tabs.Tab>
-                            <Tabs.Tab value="mesons">Mesons</Tabs.Tab>
-                            <Tabs.Tab value="strange">Strange</Tabs.Tab>
-                        </Tabs.List>
-
-                        <Tabs.Panel value="leptons" pt="xs">
-                            {renderParticleButtons(leptons, add_products)}
-                        </Tabs.Panel>
-
-                        <Tabs.Panel value="baryons" pt="xs">
-                            {renderParticleButtons(baryons, add_products)}
-                        </Tabs.Panel>
-
-                        <Tabs.Panel value="mesons" pt="xs">
-                            {renderParticleButtons(mesons, add_products)}
-                        </Tabs.Panel>
-
-                        <Tabs.Panel value="strange" pt="xs">
-                            {renderParticleButtons(strange_particles, add_products)}
-                        </Tabs.Panel>
-                    </Tabs>
-                </Card>
+        <div className="container mx-auto p-4">            
+            <div className="text-center mb-8">
+                <h1 className="text-3xl font-bold">Particle Physics Data</h1>
+                <p className="lead">Explore the properties of fundamental particles in physics</p>
             </div>
 
-            <Button
-                onClick={check}
-                variant="filled"
-                color="blue"
-                size="lg"
-                fullWidth
-                className="mt-4"
-                disabled={reactants.length === 0 || products.length === 0}
-            >
-                Validate Reaction
-            </Button>
-
-            {/* Results Modal */}
-            <Modal
-                opened={opened}
-                onClose={close}
-                size="lg"
-                radius="md"
-                title={
-                    <div className="text-xl font-bold">
-                        Reaction Analysis
+            <div className="flex flex-col md:flex-row gap-4 mb-6">
+                <div className="flex-1">
+                    <div className="form-group">
+                        <label htmlFor="search" className="form-label">Search Particles</label>
+                        <input 
+                            type="text" 
+                            id="search" 
+                            className="form-control" 
+                            placeholder="Search by name or symbol..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
                     </div>
-                }
-                centered
-            >
-                <Card shadow="sm" padding="lg" radius="md" withBorder className="mb-4">
-                    <Text fw={700} size="lg" className="mb-2">Reaction</Text>
-                    <div className="bg-gray-50 p-4 rounded-md text-center">
-                        <TeX latex={`${reaction_symbols.join(' + ')} \\rightarrow ${product_symbols.join(' + ')}`} />
+                </div>
+                <div className="flex-1">
+                    <div className="form-group">
+                        <label htmlFor="category" className="form-label">Filter by Category</label>
+                        <select 
+                            id="category" 
+                            className="form-control"
+                            value={selectedCategory}
+                            onChange={(e) => setSelectedCategory(e.target.value)}
+                        >
+                            <option value="all">All Particles</option>
+                            <option value="leptons">Leptons</option>
+                            <option value="baryons">Baryons</option>
+                            <option value="mesons">Mesons</option>
+                            <option value="strange">Strange Particles</option>
+                        </select>
                     </div>
-                </Card>
+                </div>
+            </div>
 
-                <Divider my="md" />
+            <div className="card shadow-lg mb-4">
+                <div className="card-header bg-primary text-white">
+                    <h2 className="m-0">Particle Properties ({displayParticles.length} results)</h2>
+                </div>
+                <div className="card-body p-0">
+                    <div className="overflow-x-auto">
+                        <table className="w-full border-collapse">
+                            <thead>
+                                <tr className="bg-gray-100">
+                                    <th className="p-4 border text-left">Name</th>
+                                    <th className="p-4 border text-center">Symbol</th>
+                                    <th className="p-4 border text-center">Charge</th>
+                                    <th className="p-4 border text-center">Baryon Number</th>
+                                    <th className="p-4 border text-center">Electron Lepton</th>
+                                    <th className="p-4 border text-center">Muon Lepton</th>
+                                    <th className="p-4 border text-center">Tau Lepton</th>
+                                    <th className="p-4 border text-center">Strangeness</th>
+                                    <th className="p-4 border text-center">Is Lepton</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {displayParticles.map((particle, index) => (
+                                    <tr key={`${particle.name}-${index}`} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                                        <td className="p-4 border font-semibold">{particle.name}</td>
+                                        <td className="p-4 border text-center">
+                                            <TeX latex={particle.symbol} />
+                                        </td>
+                                        <td className="p-4 border text-center">{formatNumberWithSign(particle.charge)}</td>
+                                        <td className="p-4 border text-center">{formatNumberWithSign(particle.baryon)}</td>
+                                        <td className="p-4 border text-center">{formatNumberWithSign(particle.electron_lepton)}</td>
+                                        <td className="p-4 border text-center">{formatNumberWithSign(particle.muon_lepton)}</td>
+                                        <td className="p-4 border text-center">{formatNumberWithSign(particle.tau_lepton)}</td>
+                                        <td className="p-4 border text-center">{formatNumberWithSign(particle.strangeness)}</td>
+                                        <td className="p-4 border text-center">{renderBoolean(particle.lepton)}</td>
+                                    </tr>
+                                ))}
+                                {displayParticles.length === 0 && (
+                                    <tr>
+                                        <td colSpan={9} className="p-4 text-center">No particles found matching your criteria</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-                <div className="mt-4">
-                    {check_result}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="card shadow">
+                    <div className="card-header bg-secondary text-white">
+                        <h3 className="m-0">Particle Categories</h3>
+                    </div>
+                    <div className="card-body">
+                        <ul>
+                            <li className="mb-2"><strong>Leptons:</strong> {leptons.length} particles</li>
+                            <li className="mb-2"><strong>Baryons:</strong> {baryons.length} particles</li>
+                            <li className="mb-2"><strong>Mesons:</strong> {mesons.length} particles</li>
+                            <li><strong>Strange Particles:</strong> {strange_particles.length} particles</li>
+                        </ul>
+                    </div>
                 </div>
 
-                <Button fullWidth mt="xl" color="blue" onClick={close}>
-                    Close
-                </Button>
-            </Modal>
-
-            {/* Info Modal */}
-            <Modal
-                opened={infoOpened}
-                onClose={closeInfo}
-                title="About Particle Reaction Validator"
-                size="lg"
-                radius="md"
-                centered
-            >
-                <Text size="md" className="mb-4">
-                    This tool helps validate particle reactions by checking conservation laws in particle physics.
-                </Text>
-
-                <Text fw={700} size="md" className="mb-2">How to use:</Text>
-                <ol className="list-decimal pl-6 mb-4 space-y-2">
-                    <li>Select particles for the reactants side (left)</li>
-                    <li>Select particles for the products side (right)</li>
-                    <li>Click "Validate Reaction" to check if the reaction conserves various quantum numbers</li>
-                </ol>
-
-                <Text fw={700} size="md" className="mb-2">Conservation laws checked:</Text>
-                <ul className="list-disc pl-6 mb-4 space-y-1">
-                    <li>Electric charge conservation</li>
-                    <li>Baryon number conservation</li>
-                    <li>Lepton number conservation (electron, muon, tau)</li>
-                </ul>
-
-                <Button color="blue" fullWidth onClick={closeInfo}>
-                    Got it
-                </Button>
-            </Modal>
-
-            {/* Particle Data Modal */}
-            <Modal
-                opened={dataOpened}
-                onClose={closeData}
-                fullScreen
-                radius={0}
-                transitionProps={{ transition: 'fade', duration: 200 }}
-                title={
-                    <div className="text-xl font-bold flex items-center">
-                        <Button variant="subtle" color="gray" onClick={closeData} className="mr-4">
-                            ← Back
-                        </Button>
-                        Particle Data Reference
+                <div className="card shadow">
+                    <div className="card-header bg-secondary text-white">
+                        <h3 className="m-0">Conservation Laws</h3>
                     </div>
-                }
-            >
-                <div className="p-4">
-                    <ParticleDataPage />
+                    <div className="card-body">
+                        <p className="mb-2">In particle physics, several quantities are conserved during interactions:</p>
+                        <ul>
+                            <li className="mb-1">Electric charge</li>
+                            <li className="mb-1">Baryon number</li>
+                            <li className="mb-1">Lepton numbers (electron, muon, tau)</li>
+                            <li className="mb-1">Strangeness (in strong interactions)</li>
+                        </ul>
+                    </div>
                 </div>
-            </Modal>
+
+                <div className="card shadow">
+                    <div className="card-header bg-secondary text-white">
+                        <h3 className="m-0">Particle Definitions</h3>
+                    </div>
+                    <div className="card-body">
+                        <dl>
+                            <dt className="font-semibold">Leptons</dt>
+                            <dd className="mb-2">Fundamental particles that do not participate in strong interactions.</dd>
+                            
+                            <dt className="font-semibold">Baryons</dt>
+                            <dd className="mb-2">Composite particles made of three quarks with baryon number = 1.</dd>
+                            
+                            <dt className="font-semibold">Mesons</dt>
+                            <dd className="mb-2">Composite particles consisting of one quark and one antiquark.</dd>
+                            
+                            <dt className="font-semibold">Strange Particles</dt>
+                            <dd>Particles containing at least one strange quark or antiquark.</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
