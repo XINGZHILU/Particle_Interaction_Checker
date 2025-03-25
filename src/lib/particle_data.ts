@@ -35,26 +35,24 @@ const electron = new Particle(
 );
 
 const electron_neutrino = new Particle(
-    'Electron Neutrino', 'v_{e}', 0, 1, 0, 0, 0, 0, true
+    'Electron Neutrino', '\\nu_{e}', 0, 1, 0, 0, 0, 0, true
 );
 
 const muon_neutrino = new Particle(
-    'Muon Neutrino', 'v_{\\mu}', 0, 0, 1, 0, 0, 0, true
+    'Muon Neutrino', '\\nu_{\\mu}', 0, 0, 1, 0, 0, 0, true
 );
 
 const tau_neutrino = new Particle(
-    'Tau Neutrino', 'v_{\\tau}', 0, 0, 0, 1, 0, 0, true
+    'Tau Neutrino', '\\nu_{\\tau}', 0, 0, 0, 1, 0, 0, true
 );
 
-
 const positron = new Particle(
-    'Positron', 'e^{+}', 1, 1, 0, 0, 0, 0, true
+    'Positron', 'e^{+}', 1, -1, 0, 0, 0, 0, true
 );
 
 const anti_electron_neutrino = new Particle(
-    'Anti Electron Neutrino', '\\bar{\\nu}_{e}', 0, 1, 0, 0, 0, 0, true
+    'Anti Electron Neutrino', '\\bar{\\nu}_{e}', 0, -1, 0, 0, 0, 0, true
 );
-
 
 const pi_plus = new Particle(
     'Pion+', '\\pi^{+}', 1, 0, 0, 0, 0, 0, false
@@ -69,75 +67,72 @@ const pi_zero = new Particle(
 );
 
 const k_plus = new Particle(
-    'Kaon+', 'K^{+}', 1, 0, 0, 0, 0, 0, false
+    'Kaon+', 'K^{+}', 1, 0, 0, 0, 0, 1, false
 );
 
 const k_minus = new Particle(
-    'Kaon-', 'K^{-}', -1, 0, 0, 0, 0, 0, false
+    'Kaon-', 'K^{-}', -1, 0, 0, 0, 0, -1, false
 );
 
 const k_zero = new Particle(
-    'Kaon0', 'K^{0}', 0, 0, 0, 0, 0, 0, false
+    'Kaon0', 'K^{0}', 0, 0, 0, 0, 0, 1, false
 );
 
 const lambda = new Particle(
-    'Lambda', '\\Lambda', 0, 0, 0, 0, 1, 0, false
+    'Lambda', '\\Lambda', 0, 0, 0, 0, 1, -1, false
 );
 
 const sigma_plus = new Particle(
-    'Sigma+', '\\Sigma^{+}', 1, 0, 0, 0, 1, 0, false
+    'Sigma+', '\\Sigma^{+}', 1, 0, 0, 0, 1, -1, false
 );
 
 const sigma_minus = new Particle(
-    'Sigma-', '\\Sigma^{-}', -1, 0, 0, 0, 1, 0, false
+    'Sigma-', '\\Sigma^{-}', -1, 0, 0, 0, 1, -1, false
 );
 
 const sigma_zero = new Particle(
-    'Sigma0', '\\Sigma^{0}', 0, 0, 0, 0, 1, 0, false
+    'Sigma0', '\\Sigma^{0}', 0, 0, 0, 0, 1, -1, false
 );
 
 const xi_minus = new Particle(
-    'Xi-', '\\Xi^{-}', -1, 0, 0, 0, 1, 0, false
+    'Xi-', '\\Xi^{-}', -1, 0, 0, 0, 1, -2, false
 );
 
 const xi_zero = new Particle(
-    'Xi0', '\\Xi^{0}', 0, 0, 0, 0, 1, 0, false
+    'Xi0', '\\Xi^{0}', 0, 0, 0, 0, 1, -2, false
 );
 
 const omega_minus = new Particle(
-    'Omega-', '\\Omega^{-}', -1, 0, 0, 0, 1, 0, false
+    'Omega-', '\\Omega^{-}', -1, 0, 0, 0, 1, -3, false
 );
 
 const omega_zero = new Particle(
-    'Omega0', '\\Omega^{0}', 0, 0, 0, 0, 1, 0, false
+    'Omega0', '\\Omega^{0}', 0, 0, 0, 0, 1, -3, false
 );
 
 const muon = new Particle(
-    'Muon', '\\mu', -1, 0, 1, 0, 0, 0, true
+    'Muon', '\\mu^{-}', -1, 0, 1, 0, 0, 0, true
 );
 
-
 const tau = new Particle(
-    'Tau', '\\tau', -1, 0, 0, 1, 0, 0, true
+    'Tau', '\\tau^{-}', -1, 0, 0, 1, 0, 0, true
 );
 
 const anti_muon_neutrino = new Particle(
-    'Anti Muon Neutrino', '\\bar{\\nu}_{\\mu}', 0, 0, 1, 0, 0, 0, true
+    'Anti Muon Neutrino', '\\bar{\\nu}_{\\mu}', 0, 0, -1, 0, 0, 0, true
 );
 
 const anti_tau_neutrino = new Particle(
-    'Anti Tau Neutrino', '\\bar{\\nu}_{\\tau}', 0, 0, 0, 1, 0, 0, true
+    'Anti Tau Neutrino', '\\bar{\\nu}_{\\tau}', 0, 0, 0, -1, 0, 0, true
 );
 
-
 const antimuon = new Particle(
-    'Anti Muon', '\\bar{\\mu}', 1, 0, 1, 0, 0, 0, true
+    'Anti Muon', '\\mu^{+}', 1, 0, -1, 0, 0, 0, true
 );
 
 const antitau = new Particle(
-    'Anti Tau', '\\bar{\\tau}', 1, 0, 0, 1, 0, 0, true
+    'Anti Tau', '\\tau^{+}', 1, 0, 0, -1, 0, 0, true
 );
-
 
 export const leptons = [
     electron, electron_neutrino, positron, anti_electron_neutrino,
@@ -154,5 +149,5 @@ export const mesons = [
 ]
 
 export const strange_particles = [
-    lambda, sigma_plus, sigma_minus, sigma_zero, xi_minus, xi_zero, omega_minus, omega_zero,
+    k_plus, k_minus, k_zero, lambda, sigma_plus, sigma_minus, sigma_zero, xi_minus, xi_zero, omega_minus, omega_zero,
 ]
