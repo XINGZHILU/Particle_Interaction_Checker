@@ -4,8 +4,17 @@ import { Particle } from "@/lib/particle_data";
 import { TeX } from "@/lib/ParticlesUI";
 import { Card, Text, Divider, Group, Badge } from '@mantine/core';
 
+// Define result type to include the optional weakInteractionNote
+type ConservationResult = {
+    name: string;
+    reactantValue: number;
+    productValue: number;
+    isConserved: boolean;
+    weakInteractionNote?: boolean;
+};
+
 // Function to check charge conservation
-function chargeCheck(reactants: Particle[], products: Particle[]) {
+function chargeCheck(reactants: Particle[], products: Particle[]): ConservationResult {
     let reactantsCharge = 0;
     let productsCharge = 0;
     
@@ -28,7 +37,7 @@ function chargeCheck(reactants: Particle[], products: Particle[]) {
 }
 
 // Function to check baryon number conservation
-function baryonCheck(reactants: Particle[], products: Particle[]) {
+function baryonCheck(reactants: Particle[], products: Particle[]): ConservationResult {
     let reactantsBaryonNumber = 0;
     let productsBaryonNumber = 0;
     
@@ -51,7 +60,7 @@ function baryonCheck(reactants: Particle[], products: Particle[]) {
 }
 
 // Function to check electron lepton number conservation
-function electronLeptonCheck(reactants: Particle[], products: Particle[]) {
+function electronLeptonCheck(reactants: Particle[], products: Particle[]): ConservationResult {
     let reactantsLeptonNumber = 0;
     let productsLeptonNumber = 0;
     
@@ -74,7 +83,7 @@ function electronLeptonCheck(reactants: Particle[], products: Particle[]) {
 }
 
 // Function to check muon lepton number conservation
-function muonLeptonCheck(reactants: Particle[], products: Particle[]) {
+function muonLeptonCheck(reactants: Particle[], products: Particle[]): ConservationResult {
     let reactantsLeptonNumber = 0;
     let productsLeptonNumber = 0;
     
@@ -97,7 +106,7 @@ function muonLeptonCheck(reactants: Particle[], products: Particle[]) {
 }
 
 // Function to check tau lepton number conservation
-function tauLeptonCheck(reactants: Particle[], products: Particle[]) {
+function tauLeptonCheck(reactants: Particle[], products: Particle[]): ConservationResult {
     let reactantsLeptonNumber = 0;
     let productsLeptonNumber = 0;
     
@@ -120,7 +129,7 @@ function tauLeptonCheck(reactants: Particle[], products: Particle[]) {
 }
 
 // Function to check strangeness conservation
-function strangenessCheck(reactants: Particle[], products: Particle[]) {
+function strangenessCheck(reactants: Particle[], products: Particle[]): ConservationResult {
     let reactantsStrangeness = 0;
     let productsStrangeness = 0;
     
