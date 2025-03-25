@@ -923,5 +923,5 @@ main {
 }
 
 .reactants-box {
-    @apply min-h-20 border-2 border-solid border-black rounded-2xl
+    @apply min-h-12 place-content-center p-1
 }

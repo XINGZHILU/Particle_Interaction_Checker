@@ -143,9 +143,9 @@ export default function Page() {
 
                 </div>
             </div>
-            <div className='reactants-box'>
+            <div>
                 <h2>Products</h2>
-                <div className={'min-h-20'}>
+                <div className='reactants-box'>
                     <TeX latex={product_symbols.join('+')}/>
                 </div>
                 <div className='grid grid-cols-2 gap-x-15'>
