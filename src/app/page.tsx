@@ -80,7 +80,7 @@ export default function Page() {
                 <div className={'min-h-20'}>
                     <TeX latex={reaction_symbols.join('+')}/>
                 </div>
-                <div className='grid grid-cols-2'>
+                <div className='grid grid-cols-2 gap-x-15'>
                     <Button variant={'default'} color={'gray'} onClick={() => {
                         delete_reactants();
                     }}>
@@ -148,7 +148,7 @@ export default function Page() {
                 <div className={'min-h-20'}>
                     <TeX latex={product_symbols.join('+')}/>
                 </div>
-                <div className='grid grid-cols-2'>
+                <div className='grid grid-cols-2 gap-x-15'>
                     <Button variant={'default'} color={'gray'} onClick={() => {
                         delete_products();
                     }}>

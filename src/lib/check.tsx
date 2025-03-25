@@ -28,7 +28,6 @@ export function Check(reactants : Particle[], products : Particle[]) {
     const reactant_symbols = reactants.map(particle => particle.symbol);
     const product_symbols = products.map(particle => particle.symbol);
 
-
     return <div>
         <center><h1>Check result</h1></center>
         <h2>Reaction</h2>
