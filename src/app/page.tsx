@@ -35,6 +35,11 @@ export default function Page() {
         //setEquation(`${reaction_symbols.join(' + ')} \\rightarrow ${product_symbols.join(' + ')}`)
     }
 
+    function clear_reactants() {
+        setReactants([]);
+        setReactionSymbols([]);
+    }
+
     function add_products(particle: Particle) {
         setProducts([...products, particle]);
         setProductSymbols([...product_symbols, particle.symbol]);
@@ -51,6 +56,11 @@ export default function Page() {
             setProductSymbols([]);
         }
         //setEquation(`${reaction_symbols.join(' + ')} \\rightarrow ${product_symbols.join(' + ')}`)
+    }
+
+    function clear_products(){
+        setProducts([]);
+        setProductSymbols([]);
     }
 
     function check() {
@@ -70,11 +80,19 @@ export default function Page() {
                 <div className={'min-h-20'}>
                     <TeX latex={reaction_symbols.join('+')}/>
                 </div>
-                <Button variant={'default'} color={'gray'} onClick={() => {
-                    delete_reactants();
-                }}>
-                    <FaDeleteLeft />
-                </Button>
+                <div className='grid grid-cols-2'>
+                    <Button variant={'default'} color={'gray'} onClick={() => {
+                        delete_reactants();
+                    }}>
+                        <FaDeleteLeft />
+                    </Button>
+                        <Button variant={'default'} color={'gray'} onClick={() => {
+                        clear_reactants();
+                    }}>
+                        Clear
+                    </Button>
+                </div>
+                
                 <div>
                     <h3>Leptons</h3>
                     <div className={'keyboard_section'}>
@@ -130,9 +148,18 @@ export default function Page() {
                 <div className={'min-h-20'}>
                     <TeX latex={product_symbols.join('+')}/>
                 </div>
-                <Button variant={'default'} color={'gray'} onClick={delete_products}>
-                    <FaDeleteLeft />
-                </Button>
+                <div className='grid grid-cols-2'>
+                    <Button variant={'default'} color={'gray'} onClick={() => {
+                        delete_products();
+                    }}>
+                        <FaDeleteLeft />
+                    </Button>
+                        <Button variant={'default'} color={'gray'} onClick={() => {
+                        clear_products();
+                    }}>
+                        Clear
+                    </Button>
+                </div>
                 <div>
                     <h3>Leptons</h3>
                     <div className={'keyboard_section'}>
@@ -187,6 +214,7 @@ export default function Page() {
             <h1>Check result</h1>
             <h2>Reaction</h2>
             <TeX latex={`${reaction_symbols.join(' + ')} \\rightarrow ${product_symbols.join(' + ')}`}/>
+            <br/>
             {check_result}
         </Modal>
     </div>;
