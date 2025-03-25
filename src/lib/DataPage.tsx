@@ -19,7 +19,7 @@ export default function ParticleDataPage() {
     };
 
     // Get all particles from different categories
-    const allParticles = [...leptons, ...baryons, ...mesons];
+    const allParticles = [...leptons, ...baryons, ...mesons, ...strange_particles];
     
     // Determine which particles to display based on selected category
     let displayParticles = [];
