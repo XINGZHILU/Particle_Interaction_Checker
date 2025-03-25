@@ -77,7 +77,7 @@ export default function Page() {
         <div className={'grid grid-cols-2 gap-x-10'}>
             <div>
                 <h2>Reactants</h2>
-                <div className={'min-h-20'}>
+                <div className={'reactants-box'}>
                     <TeX latex={reaction_symbols.join('+')}/>
                 </div>
                 <div className='grid grid-cols-2 gap-x-15'>
@@ -143,7 +143,7 @@ export default function Page() {
 
                 </div>
             </div>
-            <div>
+            <div className='reactants-box'>
                 <h2>Products</h2>
                 <div className={'min-h-20'}>
                     <TeX latex={product_symbols.join('+')}/>
