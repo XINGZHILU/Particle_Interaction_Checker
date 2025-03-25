@@ -17,9 +17,14 @@ export default function ParticleDataPage() {
             particle.symbol.toLowerCase().includes(searchTerm.toLowerCase())
         );
     };
+    
+    // Function to format number with sign
+    const formatNumberWithSign = (num: number) => {
+        return num > 0 ? `+${num}` : num.toString();
+    };
 
     // Get all particles from different categories
-    const allParticles = [...leptons, ...baryons, ...mesons, ...strange_particles];
+    const allParticles = [...leptons, ...baryons, ...mesons];
     
     // Determine which particles to display based on selected category
     let displayParticles = [];
@@ -110,12 +115,12 @@ export default function ParticleDataPage() {
                                         <td className="p-4 border text-center">
                                             <TeX latex={particle.symbol} />
                                         </td>
-                                        <td className="p-4 border text-center">{particle.charge}</td>
-                                        <td className="p-4 border text-center">{particle.baryon}</td>
-                                        <td className="p-4 border text-center">{particle.electron_lepton}</td>
-                                        <td className="p-4 border text-center">{particle.muon_lepton}</td>
-                                        <td className="p-4 border text-center">{particle.tau_lepton}</td>
-                                        <td className="p-4 border text-center">{particle.strangeness}</td>
+                                        <td className="p-4 border text-center">{formatNumberWithSign(particle.charge)}</td>
+                                        <td className="p-4 border text-center">{formatNumberWithSign(particle.baryon)}</td>
+                                        <td className="p-4 border text-center">{formatNumberWithSign(particle.electron_lepton)}</td>
+                                        <td className="p-4 border text-center">{formatNumberWithSign(particle.muon_lepton)}</td>
+                                        <td className="p-4 border text-center">{formatNumberWithSign(particle.tau_lepton)}</td>
+                                        <td className="p-4 border text-center">{formatNumberWithSign(particle.strangeness)}</td>
                                         <td className="p-4 border text-center">{renderBoolean(particle.lepton)}</td>
                                     </tr>
                                 ))}
